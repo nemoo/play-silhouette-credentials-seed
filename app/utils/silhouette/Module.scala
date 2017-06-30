@@ -20,7 +20,7 @@ import play.api.libs.concurrent.Execution.Implicits._
 import play.api.Configuration
 import net.ceedubs.ficus.Ficus._
 import net.ceedubs.ficus.readers.ArbitraryTypeReader._
-import models.{ User, MailTokenUser }
+import models.{ User }
 import utils.ErrorHandler
 
 /**
@@ -36,7 +36,6 @@ class Module extends AbstractModule with ScalaModule {
     bind[SecuredErrorHandler].to[ErrorHandler]
     bind[UnsecuredErrorHandler].to[ErrorHandler]
     bind[IdentityService[User]].to[UserService]
-    bind[MailTokenService[MailTokenUser]].to[MailTokenUserService]
 
     bind[IDGenerator].toInstance(new SecureRandomIDGenerator())
     bind[PasswordHasher].toInstance(new BCryptPasswordHasher())
