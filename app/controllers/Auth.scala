@@ -74,7 +74,7 @@ class Auth @Inject() (
         credentialsProvider.authenticate(Credentials(identifier, password)).flatMap { loginInfo =>
           userService.retrieve(loginInfo).flatMap {
             case Some(user) => for {
-              authenticator <- env.authenticatorService.create(loginInfo).map(authenticatorWithRememberMe(_, rememberMe))
+              authenticator <- env.authenticatorService.create(loginInfo)
               cookie <- env.authenticatorService.init(authenticator)
               result <- env.authenticatorService.embed(cookie, Redirect(targetUri).withSession(request.session - "ENTRY_URI"))
             } yield {
@@ -89,26 +89,7 @@ class Auth @Inject() (
       }
     )
   }
-
-  private def authenticatorWithRememberMe(authenticator: CookieAuthenticator, rememberMe: Boolean) = {
-    if (rememberMe) {
-      authenticator.copy(
-        expirationDateTime = clock.now + rememberMeParams._1,
-        idleTimeout = rememberMeParams._2,
-        cookieMaxAge = rememberMeParams._3
-      )
-    } else
-      authenticator
-  }
-  private lazy val rememberMeParams: (FiniteDuration, Option[FiniteDuration], Option[FiniteDuration]) = {
-    val cfg = conf.getConfig("silhouette.authenticator.rememberMe").get.underlying
-    (
-      cfg.as[FiniteDuration]("authenticatorExpiry"),
-      cfg.getAs[FiniteDuration]("authenticatorIdleTimeout"),
-      cfg.getAs[FiniteDuration]("cookieMaxAge")
-    )
-  }
-
+  
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // SIGN OUT
 

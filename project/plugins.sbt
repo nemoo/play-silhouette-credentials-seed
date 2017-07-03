@@ -3,7 +3,7 @@ addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.5.7")
 
 // web plugins
 
-addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.6.0")
+//addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.6.0")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-coffeescript" % "1.0.0")
 

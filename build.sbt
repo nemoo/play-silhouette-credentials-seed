@@ -25,7 +25,7 @@ RjsKeys.mainModule := "main"
 
 doc in Compile <<= target.map(_ / "none")
 
-scalariformSettings
+//scalariformSettings
 
 libraryDependencies ++= Seq(
   cache,
